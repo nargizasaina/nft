@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Grid, Toolbar, Typography} from "@mui/material";
+import {AppBar, Toolbar, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {makeStyles} from "tss-react/mui";
 
@@ -23,15 +23,11 @@ const AppToolbar = () => {
         <>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <Grid container justifyContent="space-between" alignItems="center">
-                        <Grid item>
-                            <Typography variant="h6">
-                                <Link to="/" className={classes.mainLink}>
-                                    NFT pictures
-                                </Link>
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                    <Typography variant="h6">
+                        <Link to="/" className={classes.mainLink}>
+                            NFT pictures
+                        </Link>
+                    </Typography>
                 </Toolbar>
             </AppBar>
             <Toolbar/>
