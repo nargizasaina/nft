@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAllPicturesFailure, fetchAllPicturesRequest, fetchAllPicturesSuccess} from "../../store/actions";
 import axios from "axios";
 import {Grid} from "@mui/material";
+import {fetchAllPicturesFailure, fetchAllPicturesRequest, fetchAllPicturesSuccess} from "../../store/actions";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PictureCard from "../../components/PictureCard/PictureCard";
+import {apiUrl} from "../../config";
 
 const MainPage = () => {
     const dispatch = useDispatch();
@@ -16,19 +17,21 @@ const MainPage = () => {
             try{
                 dispatch(fetchAllPicturesRequest());
 
-                const response = await axios('https://api.opensea.io/api/v1/assets?format=json');
+                const response = await axios(apiUrl + '/assets?format=json');
 
                 const data = response.data.assets;
                 console.log(response.data.assets);
                 const pictures = data.map(pic => {
                     return ({
                         title: pic.name || pic.collection.name,
-                        id: pic.token_id,
+                        id: pic.id,
+                        token: pic.token_id,
                         address: pic.asset_contract.address,
                         image: pic.image_url || pic.asset_contract.image_url
                     });
 
                 });
+
                 console.log(pictures);
                 dispatch(fetchAllPicturesSuccess(pictures));
             } catch (e) {
@@ -36,8 +39,6 @@ const MainPage = () => {
             }
         };
         fetch().catch(e => console.error(e));
-        console.log(allPictures);
-        console.log(loading);
     }, [dispatch]);
 
     return (
@@ -45,9 +46,9 @@ const MainPage = () => {
             {loading
                 ? <Spinner/>
                 : <Grid item container spacing={3}>
-                    {allPictures.map((pic, index) => (
+                    {allPictures.map(pic => (
                         <PictureCard
-                            key={index}
+                            key={pic.id}
                             id={pic.id}
                             address={pic.address}
                             title={pic.title}
