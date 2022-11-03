@@ -23,7 +23,7 @@ const PicPage = () => {
 
                 const response = await axios(`${apiUrl}/asset/${nft.address}/${nft.token}`);
                 const data = response.data;
-                console.log(data);
+
                 const picture = {
                     title: data.name || data.collection.name,
                     id: data.id,

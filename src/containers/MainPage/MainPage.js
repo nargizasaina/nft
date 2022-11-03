@@ -18,9 +18,8 @@ const MainPage = () => {
                 dispatch(fetchAllPicturesRequest());
 
                 const response = await axios(apiUrl + '/assets?format=json');
-
                 const data = response.data.assets;
-                console.log(response.data.assets);
+
                 const pictures = data.map(pic => {
                     return ({
                         title: pic.name || pic.collection.name,
@@ -29,10 +28,8 @@ const MainPage = () => {
                         address: pic.asset_contract.address,
                         image: pic.image_url || pic.asset_contract.image_url
                     });
-
                 });
 
-                console.log(pictures);
                 dispatch(fetchAllPicturesSuccess(pictures));
             } catch (e) {
                 dispatch(fetchAllPicturesFailure(e.message));
